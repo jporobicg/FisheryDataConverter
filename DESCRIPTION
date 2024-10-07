@@ -1,0 +1,19 @@
+Package: FisheryDataConverter
+Title: Data Harvesting and Processing Tools
+Version: 0.1.1
+Authors@R: c(
+    person("Beth", "Fulton", email = "beth.fulton@csiro.au", role = "aut"),
+    person("Javier", "Porobic", email = "javier.porobicgarate@csiro.au", role = c("aut", "cre"))
+    )
+Description: This package provides tools for harvesting data from Excel files,
+    processing it, and saving the results as plain text files. It includes
+    functions for data manipulation, tidying, and file operations.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: dplyr, tidyr, purrr, readr, readxl, fs, rlang
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
