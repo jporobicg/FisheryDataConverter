@@ -29,11 +29,14 @@ This function is used to process Research Vessel (RV) data. It reads an Excel fi
 #### Example
 
 ```R
-harvest_excel_data_RV(
-  input_directory = "path/to/input/folder",
-  output_directory = "path/to/output/folder",
-  file_name = "survey_data_2023"
-)
+# Set common directories
+base_directory <- "path/to/base/directory"
+input_directory <- base_directory
+output_directory <- file.path(base_directory, "processed_data")
+
+# Process Research Vessel (RV) data
+rv_file_name <- "rv_survey_data.xlsx"
+harvest_excel_data_RV(input_directory, output_directory, rv_file_name)
 ```
 
 ### `process_catch_effort()`
@@ -48,10 +51,9 @@ This function processes catch and effort data from the harvested RV survey data.
 #### Example
 
 ```R
-process_catch_effort(
-input_file = "path/to/output/folder/harvested_data.csv",
-output_file = "path/to/output/folder/processed_catch_effort.csv"
-)
+# Process catch and effort data
+stat_file_name <- "database_catch_effort.xlsx"
+harvest_excel_data_stat(input_directory, stat_file_name, output_directory)
 ```
 
 ## License
