@@ -56,9 +56,30 @@ harvest_excel_data_RV <- function(input_directory, file_name, output_directory) 
     length_info <- rv_catch %>%
         select(.data$link, .data$IdSPP, .data$freq_raw, .data$freq_rise)
 
-    expanded_length_info <- expand_length_info(length_info) %>%
-        rename(sample_id = .data$link, species_id = .data$IdSPP, original_raw_frequency = .data$freq_raw,
-               original_raised_frequency = .data$freq_rise)
+    # get the number of batch to run 
+    size_batch <- 1000
+    total_row <- nrow(length_info)
+    n_batch <- ceiling(total_row / size_batch)
+    temp_dir <- tempdir()
+
+    pb_length <- txtProgressBar(min = 0, max = n_batch, style = 3)
+    for(i in seq_len(n_batch)) {
+        setTxtProgressBar(pb_length, i)
+        start_row <- (i - 1) * size_batch + 1
+        end_row <- min(i * size_batch, total_row)
+        expanded_batch <- expand_length_info(length_info[start_row:end_row, ]) %>%
+            rename(sample_id = .data$link, species_id = .data$IdSPP, 
+                   original_raw_frequency = .data$freq_raw,
+                   original_raised_frequency = .data$freq_rise)
+        
+        # Save each batch to a temporary CSV file
+        temp_file <- file.path(temp_dir, paste0("batch_", i, ".csv"))
+        write.csv(expanded_batch, temp_file, row.names = FALSE)
+    }
+    close(pb_length)
+      # Combine all batches
+    temp_files <- list.files(temp_dir, pattern = "^batch_.*\\.csv$", full.names = TRUE)
+    expanded_length_info <- data.table::rbindlist(lapply(temp_files, data.table::fread))
 
     # Write catch-related CSVs
     write.csv(expanded_length_info, file.path(output_directory, "length_info.csv"), row.names = FALSE)
