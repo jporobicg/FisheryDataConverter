@@ -64,6 +64,10 @@ harvest_excel_data_RV <- function(input_directory, file_name, output_directory) 
 
     pb_length <- txtProgressBar(min = 0, max = n_batch, style = 3)
     for(i in seq_len(n_batch)) {
+        start_row <- (i - 1) * size_batch + 1
+        end_row <- min(i * size_batch, total_row)
+        print(paste("Processing batch", i, "of", n_batch))
+        print(paste("Start row:", start_row, "End row:", end_row))
         setTxtProgressBar(pb_length, i)
         start_row <- (i - 1) * size_batch + 1
         end_row <- min(i * size_batch, total_row)

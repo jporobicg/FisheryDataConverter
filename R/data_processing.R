@@ -19,8 +19,7 @@
 expand_length_info <- function(length_info) {
     new_df <- data.frame()
     tot <- nrow(length_info)
-    pb <- txtProgressBar(min = 0, max = tot, style = 3)
-    
+    pb <- txtProgressBar(min = 0, max = tot, style = 3)    
     for(dp in 1:tot){
         setTxtProgressBar(pb, dp)        
         if(is.na(length_info[dp,]$freq_raw)){
